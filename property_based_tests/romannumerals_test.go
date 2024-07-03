@@ -3,13 +3,14 @@ package romannumerals
 import (
 	"fmt"
 	"testing"
+	"testing/quick"
 )
 
 var cases []struct {
-	Arabic int
+	Arabic uint16
 	Roman  string
 } = []struct {
-	Arabic int
+	Arabic uint16
 	Roman  string
 }{
 	{Arabic: 1, Roman: "I"},
@@ -46,7 +47,11 @@ var cases []struct {
 func TestConvertingToRoman(t *testing.T) {
 	for _, test := range cases {
 		t.Run(fmt.Sprintf("%d gets converted to %q", test.Arabic, test.Roman), func(t *testing.T) {
-			got := ConvertToRoman(test.Arabic)
+			got, err := ConvertToRoman(test.Arabic)
+
+			if err != nil {
+				t.Fatalf("could not convert %q to %q, number was too large", got, test.Roman)
+			}
 
 			if got != test.Roman {
 				t.Errorf("got %q, want %q", got, test.Roman)
@@ -56,9 +61,13 @@ func TestConvertingToRoman(t *testing.T) {
 }
 
 func TestConvertingToArabic(t *testing.T) {
-	for _, test := range cases[:3] {
+	for _, test := range cases {
 		t.Run(fmt.Sprintf("%q gets converted to %d", test.Roman, test.Arabic), func(t *testing.T) {
-			got := ConvertToArabic(test.Roman)
+			got, err := ConvertToArabic(test.Roman)
+
+			if err != nil {
+				t.Fatalf("could not convert %d to %d, number was too large", got, test.Arabic)
+			}
 
 			if got != test.Arabic {
 				t.Errorf("got %d, want %d", got, test.Arabic)
@@ -66,3 +75,29 @@ func TestConvertingToArabic(t *testing.T) {
 		})
 	}
 }
+
+func TestPropertiesOfConversion(t *testing.T) {
+	assertion := func(arabic uint16) bool {
+		roman, err := ConvertToRoman(arabic)
+		if err != nil {
+			return true
+		}
+
+		fromRoman, err := ConvertToArabic(roman)
+		if err != nil {
+			return true
+		}
+
+		t.Log("testing", arabic)
+		return arabic == fromRoman
+	}
+
+	qConfig := &quick.Config{
+		MaxCount: 1000,
+	}
+
+	if err := quick.Check(assertion, qConfig); err != nil {
+		t.Error("failed checks", err)
+	}
+}
+
