@@ -10,8 +10,8 @@ import (
 
 func TestNewBlogPosts(t *testing.T) {
 	const (
-		firstBody  = "Title: Post 1\nDescription: Description 1"
-		secondBody = "Title: Post 2\nDescription: Description 2"
+		firstBody  = "Title: Post 1\nDescription: Description 1\nTags: tdd, go"
+		secondBody = "Title: Post 2\nDescription: Description 2\nTags: javascript, git"
 	)
 	fs := fstest.MapFS{
 		"hello world.md":  {Data: []byte(firstBody)},
@@ -29,7 +29,11 @@ func TestNewBlogPosts(t *testing.T) {
 	}
 
 	got := posts[0]
-	want := blogposts.Post{Title: "Post 1", Description: "Description 1"}
+	want := blogposts.Post{
+		Title:       "Post 1",
+		Description: "Description 1",
+		Tags:        []string{"tdd", "go"},
+	}
 
 	assertPost(t, got, want)
 }
