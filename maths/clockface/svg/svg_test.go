@@ -1,9 +1,8 @@
-package clockface_test
+package svg
 
 import (
 	"bytes"
 	"encoding/xml"
-	clockface "learning-go/maths"
 	"testing"
 	"time"
 )
@@ -32,48 +31,6 @@ type Line struct {
 	Y2 float64 `xml:"y2,attr"`
 }
 
-func TestSecondHandAtMidnight(t *testing.T) {
-	tm := time.Date(1337, time.January, 1, 0, 0, 0, 0, time.UTC)
-
-	want := clockface.Point{X: 150, Y: 150 - 90}
-	got := clockface.SecondHand(tm)
-
-	if got != want {
-		t.Errorf("got %v, want %v", got, want)
-	}
-}
-
-func TestSecondHandAt30Seconds(t *testing.T) {
-	tm := time.Date(1337, time.January, 1, 0, 0, 30, 0, time.UTC)
-
-	want := clockface.Point{X: 150, Y: 150 + 90}
-	got := clockface.SecondHand(tm)
-
-	if got != want {
-		t.Errorf("got %v, want %v", got, want)
-	}
-}
-
-func TestSVGWriterAtMidnight(t *testing.T) {
-	tm := time.Date(1337, time.January, 1, 0, 0, 0, 0, time.UTC)
-
-	b := bytes.Buffer{}
-	clockface.SVGWriter(&b, tm)
-
-	svg := SVG{}
-	xml.Unmarshal(b.Bytes(), &svg)
-
-	want := Line{150, 150, 150, 60}
-
-	for _, line := range svg.Line {
-		if line == want {
-			return
-		}
-	}
-
-	t.Errorf("Expected to find the second hand line %+v, in the SVG lines %+v", want, svg.Line)
-}
-
 func TestSVGWriterSecondHand(t *testing.T) {
 	cases := []struct {
 		time time.Time
@@ -92,7 +49,7 @@ func TestSVGWriterSecondHand(t *testing.T) {
 	for _, test := range cases {
 		t.Run(testName(test.time), func(t *testing.T) {
 			b := bytes.Buffer{}
-			clockface.SVGWriter(&b, test.time)
+			SVGWriter(&b, test.time)
 
 			svg := SVG{}
 			xml.Unmarshal(b.Bytes(), &svg)
@@ -123,7 +80,7 @@ func TestSVGWriterMinuteHand(t *testing.T) {
 	for _, test := range cases {
 		t.Run(testName(test.time), func(t *testing.T) {
 			b := bytes.Buffer{}
-			clockface.SVGWriter(&b, test.time)
+			SVGWriter(&b, test.time)
 
 			svg := SVG{}
 			xml.Unmarshal(b.Bytes(), &svg)
@@ -154,7 +111,7 @@ func TestSVGWriterHourHand(t *testing.T) {
 	for _, test := range cases {
 		t.Run(testName(test.time), func(t *testing.T) {
 			b := bytes.Buffer{}
-			clockface.SVGWriter(&b, test.time)
+			SVGWriter(&b, test.time)
 
 			svg := SVG{}
 			xml.Unmarshal(b.Bytes(), &svg)

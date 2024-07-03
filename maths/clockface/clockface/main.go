@@ -4,7 +4,7 @@ import (
 	"os"
 	"time"
 
-	clockface "learning-go/maths"
+	clockface "github.com/alexander-tengborg/learn-go-with-tests/maths/clockface"
 )
 
 func main() {

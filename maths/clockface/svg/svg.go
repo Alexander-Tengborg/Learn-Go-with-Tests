@@ -1,9 +1,10 @@
-package clockface
+package svg
 
 import (
 	"fmt"
 	"io"
 	"time"
+	clockface "learn-go-with-tests/maths/"
 )
 
 const (
