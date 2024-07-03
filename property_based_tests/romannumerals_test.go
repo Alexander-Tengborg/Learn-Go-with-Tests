@@ -50,7 +50,7 @@ func TestConvertingToRoman(t *testing.T) {
 			got, err := ConvertToRoman(test.Arabic)
 
 			if err != nil {
-				t.Fatalf("could not convert %q to %q, number was too large", got, test.Roman)
+				t.Fatalf("could not convert %q to %q, number was too large or too small", got, test.Roman)
 			}
 
 			if got != test.Roman {
@@ -66,7 +66,7 @@ func TestConvertingToArabic(t *testing.T) {
 			got, err := ConvertToArabic(test.Roman)
 
 			if err != nil {
-				t.Fatalf("could not convert %d to %d, number was too large", got, test.Arabic)
+				t.Fatalf("could not convert %d to %d, number was too large or too small", got, test.Arabic)
 			}
 
 			if got != test.Arabic {
@@ -100,4 +100,3 @@ func TestPropertiesOfConversion(t *testing.T) {
 		t.Error("failed checks", err)
 	}
 }
-
