@@ -40,7 +40,7 @@ func TestSecondHandPoint(t *testing.T) {
 
 	for _, test := range cases {
 		t.Run(fmt.Sprintf("converting %vs to point %v", test.time.Second(), test.point), func(t *testing.T) {
-			got := secondHandPoint(test.time)
+			got := SecondHandPoint(test.time)
 
 			if !roughlyEqualPoint(test.point, got) {
 				t.Fatalf("wanted %v, got %v", test.point, got)
@@ -81,7 +81,7 @@ func TestMinuteHandPoint(t *testing.T) {
 
 	for _, test := range cases {
 		t.Run(fmt.Sprintf("converting %vs to point %v", test.time.Second(), test.point), func(t *testing.T) {
-			got := minuteHandPoint(test.time)
+			got := MinuteHandPoint(test.time)
 
 			if !roughlyEqualPoint(test.point, got) {
 				t.Fatalf("wanted %v, got %v", test.point, got)
@@ -123,7 +123,7 @@ func TestHourHandPoint(t *testing.T) {
 
 	for _, test := range cases {
 		t.Run(fmt.Sprintf("converting %vs to point %v", test.time.Second(), test.point), func(t *testing.T) {
-			got := hourHandPoint(test.time)
+			got := HourHandPoint(test.time)
 
 			if !roughlyEqualPoint(test.point, got) {
 				t.Fatalf("wanted %v, got %v", test.point, got)
