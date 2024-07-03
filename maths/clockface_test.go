@@ -22,7 +22,7 @@ func TestSecondsInRadians(t *testing.T) {
 		t.Run(fmt.Sprintf("converting %vs to %v radians", test.time.Second(), test.angle), func(t *testing.T) {
 			got := secondsInRadians(test.time)
 
-			if test.angle != got {
+			if !roughlyEqualFloat64(test.angle, got) {
 				t.Fatalf("wanted %v radians, got %v radians", test.angle, got)
 			}
 		})
@@ -63,7 +63,7 @@ func TestMinutesInRadians(t *testing.T) {
 		t.Run(fmt.Sprintf("converting %vs to %v radians", test.time.Second(), test.angle), func(t *testing.T) {
 			got := minutesInRadians(test.time)
 
-			if test.angle != got {
+			if !roughlyEqualFloat64(test.angle, got) {
 				t.Fatalf("wanted %v radians, got %v radians", test.angle, got)
 			}
 		})
@@ -82,6 +82,48 @@ func TestMinuteHandPoint(t *testing.T) {
 	for _, test := range cases {
 		t.Run(fmt.Sprintf("converting %vs to point %v", test.time.Second(), test.point), func(t *testing.T) {
 			got := minuteHandPoint(test.time)
+
+			if !roughlyEqualPoint(test.point, got) {
+				t.Fatalf("wanted %v, got %v", test.point, got)
+			}
+		})
+	}
+}
+
+func TestHoursInRadians(t *testing.T) {
+	cases := []struct {
+		time  time.Time
+		angle float64
+	}{
+		{simpleTime(0, 0, 0), 0},
+		{simpleTime(6, 0, 0), math.Pi},
+		{simpleTime(21, 0, 0), math.Pi * 1.5},
+		{simpleTime(0, 1, 30), math.Pi / ((6 * 60 * 60) / 90)},
+	}
+
+	for _, test := range cases {
+		t.Run(fmt.Sprintf("converting %vs to %v radians", test.time.Second(), test.angle), func(t *testing.T) {
+			got := hoursInRadians(test.time)
+
+			if !roughlyEqualFloat64(test.angle, got) {
+				t.Fatalf("wanted %v radians, got %v radians", test.angle, got)
+			}
+		})
+	}
+}
+
+func TestHourHandPoint(t *testing.T) {
+	cases := []struct {
+		time  time.Time
+		point Point
+	}{
+		{simpleTime(6, 0, 0), Point{0, -1}},
+		{simpleTime(9, 0, 0), Point{-1, 0}},
+	}
+
+	for _, test := range cases {
+		t.Run(fmt.Sprintf("converting %vs to point %v", test.time.Second(), test.point), func(t *testing.T) {
+			got := hourHandPoint(test.time)
 
 			if !roughlyEqualPoint(test.point, got) {
 				t.Fatalf("wanted %v, got %v", test.point, got)
