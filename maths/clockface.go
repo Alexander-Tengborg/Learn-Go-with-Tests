@@ -5,11 +5,11 @@ import (
 	"time"
 )
 
-const (
-	secondHandLength = 90
-	clockCentreX = 150
-	clockCentreY = 150
-)
+// const (
+// 	secondHandLength = 90
+// 	clockCentreX = 150
+// 	clockCentreY = 150
+// )
 
 type Point struct {
 	X float64
