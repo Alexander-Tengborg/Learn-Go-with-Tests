@@ -1,33 +1,40 @@
 package arraysslices
 
+func Reduce[A, B any](arr []A, fn func(B, A) B, initialValue B) B {
+	result := initialValue
+	for _, val := range arr {
+		result = fn(result, val)
+	}
+
+	return result
+}
+
 func Sum(numbers []int) int {
-	sum := 0
-	for _, num := range numbers {
-		sum += num
-	}
-	return sum
-}
-
-func SumAll(numbersToSum ...[]int) []int {
-	var sums []int
-
-	for _, numbers := range numbersToSum {
-		sums = append(sums, Sum(numbers))
+	sum := func(result int, val int) int {
+		return result + val
 	}
 
-	return sums
+	return Reduce(numbers, sum, 0)
 }
 
-func SumAllTails(numbersToSum ...[]int) []int {
-	var sums []int
-
-	for _, numbers := range numbersToSum {
-		sum := 0
-		if len(numbers) > 1 {
-			sum = Sum(numbers[1:])
+func SumAllTails(numbers ...[]int) []int {
+	sumTail := func(result []int, value []int) []int {
+		if len(value) > 1 {
+			return append(result, Sum(value[1:]))
 		}
-		sums = append(sums, sum)
+		return append(result, 0)
 	}
 
-	return sums
+	return Reduce(numbers, sumTail, []int{})
+}
+
+func Find[T any](numbers []T, fn func(T) bool) (T, bool) {
+	for _, num := range numbers {
+		if fn(num) {
+			return num, true
+		}
+	}
+
+	var zero T
+	return zero, false
 }
