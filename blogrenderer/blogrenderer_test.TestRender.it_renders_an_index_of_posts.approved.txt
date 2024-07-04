@@ -1,0 +1,45 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>My blog!</title>
+    <meta charset="UTF-8"/>
+    <meta name="description" content="Wow, like and subscribe" lang="en"/>
+</head>
+<body>
+<nav role="navigation">
+    <div>
+        <h1>A Gopher's blog</h1>
+        <ul>
+            <li><a href="/">home</a></li>
+            <li><a href="about">about</a></li>
+            <li><a href="archive">archive</a></li>
+        </ul>
+    </div>
+</nav>
+<main>
+
+<ol>
+    
+        <li>
+            <a href="/post/hello-world">
+                Hello world
+            </a>
+        </li>
+    
+        <li>
+            <a href="/post/hello-world-2">
+                Hello world 2
+            </a>
+        </li>
+    
+</ol>
+
+</main>
+<footer>
+    <ul>
+        <li><a href="https://github.com/alexander-tengborg">GitHub</a></li>
+    </ul>
+</footer>
+</body>
+</html>
