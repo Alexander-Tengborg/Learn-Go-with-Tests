@@ -27,10 +27,6 @@ type PostRenderer struct {
 	templ *template.Template
 }
 
-func sanitizeTitle(title string) string {
-	return strings.ReplaceAll(strings.ToLower(title), " ", "-")
-}
-
 func NewPostRenderer() (*PostRenderer, error) {
 	templ, err := template.ParseFS(postTemplate, "templates/*.gohtml")
 	if err != nil {
