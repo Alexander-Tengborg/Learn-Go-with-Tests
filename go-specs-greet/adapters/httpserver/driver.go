@@ -1,4 +1,4 @@
-package go_specs_greet
+package httpserver
 
 import (
 	"io"
@@ -7,11 +7,11 @@ import (
 
 type Driver struct {
 	BaseURL string
-	Client *http.Client
+	Client  *http.Client
 }
 
-func (d Driver) Greet() (string, error) {
-	res, err := d.Client.Get(d.BaseURL + "/greet")
+func (d Driver) Greet(name string) (string, error) {
+	res, err := d.Client.Get(d.BaseURL + "/greet?name=" + name)
 	if err != nil {
 		return "", err
 	}
